@@ -1,0 +1,406 @@
+/* Full-screen stunning violet background */
+.hero-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  background: linear-gradient(135deg, #2e1844, #b388ff);
+}
+
+
+/* ExploreX brand text */
+.brand-name {
+  font-family: 'Great Vibes', cursive;
+  font-size: 190px;
+  color: #efe4ff;   /* lavender */
+  font-weight: 400;
+  margin: 0;
+  line-height: 1;
+}
+
+.hero-container {
+  min-height: 100vh;
+  width: 100%;
+}
+
+
+/* Buttons container */
+.auth-buttons {
+  margin-top: 60px;
+  display: flex;
+  gap: 28px;
+}
+
+/* Styles moved from home.html (ExploreX cities) */
+.explorex-cities-section {
+  width: 100%;
+  padding: 5rem 2rem;
+  background: linear-gradient(135deg, #e9d5ff 0%, #d8b4fe 50%, #c084fc 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.explorex-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.explorex-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.explorex-title {
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.explorex-subtitle {
+  font-size: 1.1rem;
+  color: #4a5568;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.explorex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  width: 100%;
+}
+
+.explorex-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.explorex-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.explorex-card-image {
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
+  position: relative;
+}
+
+.explorex-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.explorex-card:hover .explorex-card-image img {
+  transform: scale(1.08);
+}
+
+.explorex-card-content {
+  padding: 1.75rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.explorex-city-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.explorex-state {
+  font-size: 0.9rem;
+  color: #7c3aed;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.explorex-description {
+  font-size: 0.95rem;
+  color: #4a5568;
+  font-weight: 400;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 1024px) {
+  .explorex-cities-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .explorex-title {
+    font-size: 2.25rem;
+  }
+
+  .explorex-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.75rem;
+  }
+
+  .explorex-card-image {
+    height: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .explorex-cities-section {
+    padding: 3rem 1rem;
+  }
+
+  .explorex-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .explorex-title {
+    font-size: 1.75rem;
+  }
+
+  .explorex-subtitle {
+    font-size: 1rem;
+  }
+
+  .explorex-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .explorex-card-image {
+    height: 220px;
+  }
+
+  .explorex-card-content {
+    padding: 1.25rem;
+  }
+
+  .explorex-city-name {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .explorex-cities-section {
+    padding: 2rem 1rem;
+  }
+
+  .explorex-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .explorex-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .explorex-header {
+    margin-bottom: 2rem;
+  }
+
+  .explorex-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .explorex-card-image {
+    height: 200px;
+  }
+
+  .explorex-card-content {
+    padding: 1rem;
+  }
+
+  .explorex-city-name {
+    font-size: 1.1rem;
+  }
+
+  .explorex-description {
+    font-size: 0.85rem;
+  }
+}
+
+.explorex-card:focus-within {
+  outline: 2px solid #7c3aed;
+  outline-offset: 2px;
+}
+
+@media print {
+  .explorex-card {
+    page-break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #e2e8f0;
+  }
+
+  .explorex-card:hover {
+    transform: none;
+  }
+}
+
+/* Image loading fallback */
+.explorex-card-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: #f3e8ff;
+}
+
+/* Common button style */
+.btn {
+  padding: 14px 40px;
+  font-size: 16px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Sign In button */
+.primary {
+  background-color: #efe4ff;
+  color: #6a1b9a;
+  border: none;
+}
+
+/* Login button (NO WHITE BORDER) */
+.secondary {
+  background-color: transparent;
+  color: #efe4ff;
+  border: 2px solid #d1b3ff; /* lavender border */
+}
+
+/* Hover effect */
+.btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+/* Full screen background */
+.landing {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+
+/* Dark overlay for readability */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Content above overlay */
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 20px;
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+/* Title */
+.title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.brand {
+  color: #ffcc00;
+}
+
+/* Subtitle */
+.subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn {
+  padding: 12px 30px;
+  font-size: 1rem;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+/* Primary button */
+.primary {
+  background: #ff9800;
+  color: white;
+}
+
+.primary:hover {
+  background: #e68900;
+  transform: scale(1.05);
+}
+
+/* Secondary button */
+.secondary {
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+}
+
+.secondary:hover {
+  background: white;
+  color: black;
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

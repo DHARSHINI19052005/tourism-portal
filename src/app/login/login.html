@@ -1,0 +1,101 @@
+<div class="auth-page">
+  <div class="auth-card">
+
+    <div class="auth-brand">
+      <span class="brand-logo">ExploreX</span>
+      <p class="brand-tagline">Create your account</p>
+    </div>
+
+    <!-- Full Name -->
+    <div class="field-group" [class.has-error]="touched.fullName && errors.fullName">
+      <label>Full Name</label>
+      <input
+        type="text"
+        placeholder="e.g. Priya Sharma"
+        [(ngModel)]="form.fullName"
+        (blur)="touch('fullName')"
+        (input)="validate()"
+      />
+      <span class="error-msg" *ngIf="touched.fullName && errors.fullName">{{ errors.fullName }}</span>
+    </div>
+
+    <!-- Email -->
+    <div class="field-group" [class.has-error]="touched.email && errors.email">
+      <label>Email Address</label>
+      <input
+        type="email"
+        placeholder="you@example.com"
+        [(ngModel)]="form.email"
+        (blur)="touch('email')"
+        (input)="validate()"
+      />
+      <span class="error-msg" *ngIf="touched.email && errors.email">{{ errors.email }}</span>
+    </div>
+
+    <!-- Phone -->
+    <div class="field-group" [class.has-error]="touched.phone && errors.phone">
+      <label>Phone Number</label>
+      <input
+        type="tel"
+        placeholder="10-digit mobile number"
+        [(ngModel)]="form.phone"
+        (blur)="touch('phone')"
+        (input)="validate()"
+      />
+      <span class="error-msg" *ngIf="touched.phone && errors.phone">{{ errors.phone }}</span>
+    </div>
+
+    <!-- Username -->
+    <div class="field-group" [class.has-error]="touched.username && errors.username">
+      <label>Username</label>
+      <input
+        type="text"
+        placeholder="Choose a unique username"
+        [(ngModel)]="form.username"
+        (blur)="touch('username')"
+        (input)="validate()"
+      />
+      <span class="error-msg" *ngIf="touched.username && errors.username">{{ errors.username }}</span>
+    </div>
+
+    <!-- Password -->
+    <div class="field-group" [class.has-error]="touched.password && errors.password">
+      <label>Password</label>
+      <input
+        type="password"
+        placeholder="At least 6 characters"
+        [(ngModel)]="form.password"
+        (blur)="touch('password')"
+        (input)="validate()"
+      />
+      <span class="error-msg" *ngIf="touched.password && errors.password">{{ errors.password }}</span>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="field-group" [class.has-error]="touched.confirmPassword && errors.confirmPassword">
+      <label>Confirm Password</label>
+      <input
+        type="password"
+        placeholder="Re-enter your password"
+        [(ngModel)]="form.confirmPassword"
+        (blur)="touch('confirmPassword')"
+        (input)="validate()"
+      />
+      <span class="error-msg" *ngIf="touched.confirmPassword && errors.confirmPassword">{{ errors.confirmPassword }}</span>
+    </div>
+
+    <!-- Server error -->
+    <div class="server-error" *ngIf="serverError">{{ serverError }}</div>
+
+    <button class="submit-btn" [class.loading]="loading" (click)="submit()" [disabled]="loading">
+      <span *ngIf="!loading">Create Account</span>
+      <span *ngIf="loading" class="spinner-inline"></span>
+    </button>
+
+    <p class="switch-link">
+      Already have an account?
+      <span routerLink="/signin">Sign In</span>
+    </p>
+
+  </div>
+</div>

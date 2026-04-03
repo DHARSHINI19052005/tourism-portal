@@ -1,0 +1,142 @@
+<div class="admin-page">
+
+    <!-- Header -->
+    <div class="admin-header">
+        <div class="header-inner">
+            <div class="header-left">
+                <div class="admin-badge">🛡️ Admin</div>
+                <div>
+                    <h1 class="admin-title">Revenue Analytics Dashboard</h1>
+                    <p class="admin-subtitle">Welcome, <strong>{{ adminName }}</strong> — here's the full revenue
+                        overview.</p>
+                </div>
+            </div>
+            <div class="header-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Period</span>
+                    <span class="meta-val">Oct 2025 – Mar 2026</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Status</span>
+                    <span class="meta-val live"><span class="live-dot"></span>Live</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+            <div class="kpi-card" *ngFor="let k of kpis" [style.--accent]="k.color">
+                <div class="kpi-top">
+                    <span class="kpi-icon">{{ k.icon }}</span>
+                    <span class="kpi-trend" [class.up]="k.trend === 'up'" [class.down]="k.trend === 'down'">
+                        {{ k.trend === 'up' ? '▲' : '▼' }} {{ k.sub.split(' ')[0] }}
+                    </span>
+                </div>
+                <div class="kpi-value">{{ k.value }}</div>
+                <div class="kpi-label">{{ k.label }}</div>
+                <div class="kpi-sub">{{ k.sub }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="admin-content">
+
+        <!-- Charts Row -->
+        <div class="charts-row">
+            <!-- Revenue by Destination -->
+            <div class="chart-card large">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <span class="card-icon">📊</span>
+                        <div>
+                            <div class="card-title">Revenue by Destination</div>
+                            <div class="card-sub">Total earnings per location</div>
+                        </div>
+                    </div>
+                    <span class="chart-tag indigo">Bar Chart</span>
+                </div>
+                <div class="canvas-wrap">
+                    <canvas #chartCanvas data-chart-id="revenue-dest" width="520" height="200"></canvas>
+                </div>
+            </div>
+
+            <!-- Booking Type Split -->
+            <div class="chart-card small">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <span class="card-icon">🥧</span>
+                        <div>
+                            <div class="card-title">Booking Type Split</div>
+                            <div class="card-sub">Flight, Train & Bus share</div>
+                        </div>
+                    </div>
+                    <span class="chart-tag purple">Doughnut</span>
+                </div>
+                <div class="canvas-wrap">
+                    <canvas #chartCanvas data-chart-id="booking-split" width="320" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monthly Revenue Chart -->
+        <div class="chart-card full">
+            <div class="card-header">
+                <div class="card-title-group">
+                    <span class="card-icon">📈</span>
+                    <div>
+                        <div class="card-title">Monthly Revenue Trend</div>
+                        <div class="card-sub">Oct 2025 – Mar 2026 revenue summary</div>
+                    </div>
+                </div>
+                <span class="chart-tag green">Line Chart</span>
+            </div>
+            <div class="canvas-wrap">
+                <canvas #chartCanvas data-chart-id="monthly-rev" width="900" height="180"></canvas>
+            </div>
+        </div>
+
+        <!-- Top Destinations Table -->
+        <div class="table-card">
+            <div class="table-header">
+                <div class="card-title-group">
+                    <span class="card-icon">🏆</span>
+                    <div>
+                        <div class="card-title">Top Performing Destinations</div>
+                        <div class="card-sub">Ranked by total revenue generated</div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Destination</th>
+                            <th>Revenue</th>
+                            <th>Bookings</th>
+                            <th>Growth</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let dest of topDestinations">
+                            <td><span class="rank-badge">{{ dest.badge }}</span></td>
+                            <td><strong class="dest-name">{{ dest.name }}</strong></td>
+                            <td><span class="revenue-val">{{ dest.revenue }}</span></td>
+                            <td>{{ dest.bookings }}</td>
+                            <td>
+                                <span class="growth-chip" [class.pos]="dest.growth.startsWith('+')"
+                                    [class.neg]="dest.growth.startsWith('-')">
+                                    {{ dest.growth }}
+                                </span>
+                            </td>
+                            <td><span class="status-dot active"></span> Active</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

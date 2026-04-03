@@ -1,0 +1,7 @@
+<div class="notification-container">
+  <div *ngFor="let n of notifications" class="notification" [ngClass]="n.type" [@fadeInOut]>
+    <span class="icon">{{ getIcon(n.type) }}</span>
+    <span class="message">{{ n.message }}</span>
+    <button class="close-btn" (click)="close(n.id)">×</button>
+  </div>
+</div>

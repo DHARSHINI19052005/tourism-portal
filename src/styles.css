@@ -1,0 +1,91 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+:root{
+  --bg: #ffffff;
+  --muted: #6b7280;
+  --brand-1: #667eea;
+  --brand-2: #764ba2;
+  --max-width: 1200px;
+}
+
+/* Responsive type scale */
+html{font-size:16px}
+@media (max-width:1200px){html{font-size:15px}}
+@media (max-width:900px){html{font-size:14px}}
+@media (max-width:520px){html{font-size:13px}}
+
+/* Container utility */
+.container{max-width:var(--max-width);margin:0 auto;padding:0 16px;width:100%}
+
+/* Make images and videos responsive by default */
+img, picture, video{max-width:100%;height:auto;display:block}
+
+/* Buttons baseline */
+button{font-family:inherit}
+
+/* Simple grid → stacks on small screens */
+.responsive-row{display:flex;gap:16px;align-items:stretch}
+@media (max-width:880px){.responsive-row{flex-direction:column}}
+
+/* Utility helpers */
+.hide-mobile{display:inline}
+@media (max-width:520px){.hide-mobile{display:none}}
+.show-mobile{display:none}
+@media (max-width:520px){.show-mobile{display:inline}}
+
+/* Form elements responsive defaults */
+input,textarea,select{max-width:100%;box-sizing:border-box}
+
+/* Ensure root app fills viewport */
+app-root, body, html {height:100%}
+
+/* Small tweaks for touch targets */
+button, a.button-like{touch-action:manipulation}
+
+/* Smooth Page Transitions */
+router-outlet ~ * {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth transition for all elements */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+/* Disable transition for specific performance-critical elements */
+img, video, canvas {
+  transition: none;
+}
+
+/* Link hover effects */
+a {
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+
+/* Global link color */
+a{color:var(--brand-1)}
+
+/* You can add more global responsive rules here */

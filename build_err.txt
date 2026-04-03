@@ -1,0 +1,48 @@
+[33m❯[39m Building...
+[32m✔[39m Building...
+[1mInitial chunk files[22m[2m | [22m[1mNames[22m        [2m | [22m [1mRaw size[22m[2m | [22m[1mEstimated transfer size[22m
+[32mmain-UGD2ARJC.js[39m   [2m | [22m[2mmain[22m         [2m | [22m[36m619.76 kB[39m[2m | [22m              [36m138.08 kB[39m
+[32mstyles-4VT3VKXJ.css[39m[2m | [22m[2mstyles[22m       [2m | [22m  [36m1.30 kB[39m[2m | [22m              [36m494 bytes[39m
+
+[1m [22m                  [2m | [22m[1mInitial total[22m[2m | [22m[1m621.06 kB[22m[2m | [22m              [1m138.57 kB[22m
+
+Application bundle generation complete. [5.968 seconds] - 2026-03-20T11:25:44.732Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: RouterLink is not used within the template of App[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.ts:15:26:
+[37m      15 │   imports: [RouterOutlet, [32mRouterLink[37m, CommonModule, Navbar, Footer...
+         ╵                           [32m~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8113: All imports are unused[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/home/home.ts:7:2:
+[37m      7 │   [32mimports[37m: [RouterLink],
+        ╵   [32m~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mAll "@import" rules must come first[0m [1m[35m[plugin angular-compiler][0m [invalid-@import]
+
+    src/app/booking/booking.css:121:0:
+[37m      121 │ [32m@import[37m url('https://fonts.googleapis.com/css2?family=Poppins:wgh...
+          ╵ [32m~~~~~~~[0m
+
+  This rule cannot come before an "@import" rule
+
+    src/app/booking/booking.css:1:0:
+[37m      1 │ [32m[37m.error-message {
+        ╵ [32m^[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mcss-inline-fonts:https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap exceeded maximum budget. Budget 12.00 kB was not met by 1.47 kB with a total of 13.47 kB.[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mcss-inline-fonts:https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap exceeded maximum budget. Budget 12.00 kB was not met by 3.40 kB with a total of 15.40 kB.[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mcss-inline-fonts:https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap exceeded maximum budget. Budget 12.00 kB was not met by 6.31 kB with a total of 18.31 kB.[0m
+
+[39m[22m
+Output location: C:\tourism-portal\tourism-portal\dist\tourism-portal
+

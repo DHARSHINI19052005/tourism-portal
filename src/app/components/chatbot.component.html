@@ -1,0 +1,90 @@
+<div class="chatbot-container">
+  <!-- Floating Chat Icon -->
+  <button *ngIf="!(isOpen$ | async)" 
+          class="chat-icon-button" 
+          (click)="toggleChat()"
+          aria-label="Open Travel Chat"
+          title="Open Travel Chat">
+    <!-- New chat bubble + sparkle icon -->
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 4h16v10H7l-3 3V4z" fill="currentColor" opacity="0.95"></path>
+      <path d="M8.5 9.5h7" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M8.5 12h5" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
+      <circle cx="18.5" cy="5.5" r="1.6" fill="#d4af37" />
+    </svg>
+    <span class="notification-badge">1</span>
+  </button>
+
+  <!-- Chat Window -->
+  <div class="chat-window" *ngIf="isOpen$ | async">
+    <!-- Header -->
+    <div class="chat-header">
+      <div class="header-content">
+        <h3>Travel Support</h3>
+        <p class="status">AI Chatbot • Always Available</p>
+      </div>
+      <button class="close-btn" (click)="closeChat()" title="Close chat">✕</button>
+    </div>
+
+    <!-- Messages Container -->
+    <div class="messages-container" #messagesContainer>
+      <div *ngFor="let message of messages$ | async" 
+           class="message-wrapper"
+           [class.user-message]="message.sender === 'user'"
+           [class.bot-message]="message.sender === 'bot'">
+        
+        <!-- Typing Animation -->
+        <ng-container *ngIf="message.isTyping; else normalMessage">
+          <div class="typing-indicator">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </ng-container>
+
+        <!-- Normal Message -->
+        <ng-template #normalMessage>
+          <div class="message" [innerHTML]="message.text | sanitizeHtml"></div>
+          <span class="message-time">{{ message.timestamp | date:'short' }}</span>
+        </ng-template>
+      </div>
+    </div>
+
+    <!-- Quick Suggestions (show before user starts typing) -->
+    <div class="quick-suggestions" *ngIf="(messages$ | async)?.length === 1">
+      <p class="suggestions-label">Quick Help:</p>
+      <div class="suggestion-buttons">
+        <button *ngFor="let suggestion of quickSuggestions"
+                class="suggestion-btn"
+                (click)="onQuickSuggestionClick(suggestion.id)"
+                title="Ask about {{ suggestion.text }}">
+          <span class="suggestion-icon">{{ suggestion.icon }}</span>
+          <span class="suggestion-text">{{ suggestion.text }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="input-area">
+      <textarea class="message-input"
+                placeholder="Ask about flights, hotels, visas, refunds..."
+                [(ngModel)]="userInput"
+                (keypress)="handleKeyPress($event)"
+                rows="1"></textarea>
+      <button class="send-btn" (click)="sendMessage()" title="Send message">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Chat Footer -->
+    <div class="chat-footer">
+      <button class="footer-btn" (click)="clearChat()" title="Clear chat">
+        <span>🔄</span> Clear
+      </button>
+      <p class="footer-text">Powered by AI Travel Assistant</p>
+    </div>
+  </div>
+</div>

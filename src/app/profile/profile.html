@@ -1,0 +1,61 @@
+<div class="profile-page">
+    <div class="profile-card">
+
+        <!-- Avatar header -->
+        <div class="profile-header">
+            <div class="avatar-circle">{{ userInitial }}</div>
+            <div>
+                <h2 class="profile-name">{{ form.fullName || 'Your Profile' }}</h2>
+                <p class="profile-username">&#64;{{ form.username }}</p>
+            </div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- Edit form -->
+        <div class="form-section">
+            <h3 class="section-title">Edit Details</h3>
+
+            <!-- Full Name -->
+            <div class="field-group" [class.has-error]="touched.fullName && errors.fullName">
+                <label>Full Name</label>
+                <input type="text" [(ngModel)]="form.fullName" (blur)="touch('fullName')" (input)="validate()"
+                    placeholder="Your full name" />
+                <span class="error-msg" *ngIf="touched.fullName && errors.fullName">{{ errors.fullName }}</span>
+            </div>
+
+            <!-- Email -->
+            <div class="field-group" [class.has-error]="touched.email && errors.email">
+                <label>Email Address</label>
+                <input type="email" [(ngModel)]="form.email" (blur)="touch('email')" (input)="validate()"
+                    placeholder="you@example.com" />
+                <span class="error-msg" *ngIf="touched.email && errors.email">{{ errors.email }}</span>
+            </div>
+
+            <!-- Phone -->
+            <div class="field-group" [class.has-error]="touched.phone && errors.phone">
+                <label>Phone Number</label>
+                <input type="tel" [(ngModel)]="form.phone" (blur)="touch('phone')" (input)="validate()"
+                    placeholder="10-digit number" />
+                <span class="error-msg" *ngIf="touched.phone && errors.phone">{{ errors.phone }}</span>
+            </div>
+
+            <!-- Username (read-only) -->
+            <div class="field-group">
+                <label>Username <span class="readonly-tag">cannot be changed</span></label>
+                <input type="text" [value]="form.username" disabled />
+            </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="actions-row">
+            <button class="save-btn" [class.loading]="loading" (click)="saveChanges()" [disabled]="loading">
+                <span *ngIf="!loading">💾 Save Changes</span>
+                <span *ngIf="loading" class="spinner-inline"></span>
+            </button>
+            <button class="logout-btn" (click)="logout()">🚪 Log Out</button>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,368 @@
+<!-- Premium Travel Booking Page -->
+<div class="booking-wrapper">
+  <!-- Sticky Header -->
+  <div class="booking-header">
+    <div class="header-content">
+      <h1 class="header-title">✈️ ExploreX Travel Booking</h1>
+      <p class="header-subtitle">Book flights, trains, and buses at the best prices</p>
+    </div>
+  </div>
+
+  <!-- Main Booking Container -->
+  <div class="booking-container">
+    <!-- Animated Tab Navigation -->
+    <div class="tab-navigation">
+      <button 
+        class="tab-btn" 
+        [class.active]="selectedTab === 'flights'"
+        (click)="selectTab('flights')">
+        <span class="tab-icon">✈️</span>
+        <span class="tab-label">Flights</span>
+      </button>
+      <button 
+        class="tab-btn" 
+        [class.active]="selectedTab === 'trains'"
+        (click)="selectTab('trains')">
+        <span class="tab-icon">🚆</span>
+        <span class="tab-label">Trains</span>
+      </button>
+      <button 
+        class="tab-btn" 
+        [class.active]="selectedTab === 'buses'"
+        (click)="selectTab('buses')">
+        <span class="tab-icon">🚌</span>
+        <span class="tab-label">Buses</span>
+      </button>
+      <div class="tab-indicator"></div>
+    </div>
+
+    <!-- Premium Search Card -->
+    <div class="search-card">
+      <h2 class="search-title">Search Your Journey</h2>
+
+      <!-- Trip Type Toggle (For Flights) -->
+      <div *ngIf="selectedTab === 'flights'" class="trip-type-toggle">
+        <label class="radio-option">
+          <input type="radio" name="tripType" value="one-way" [(ngModel)]="searchForm.tripType">
+          <span>One Way</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="tripType" value="round-trip" [(ngModel)]="searchForm.tripType">
+          <span>Round Trip</span>
+        </label>
+      </div>
+
+      <!-- Search Form -->
+      <form class="search-form" (ngSubmit)="searchBookings()">
+        <div class="form-row">
+          <!-- From Location -->
+          <div class="form-group">
+            <label for="from">From</label>
+            <div class="input-wrapper">
+              <span class="input-icon">📍</span>
+              <input 
+                type="text" 
+                id="from"
+                class="form-input"
+                placeholder="Departure city"
+                [(ngModel)]="searchForm.from"
+                name="from"
+                required>
+            </div>
+          </div>
+
+          <!-- To Location -->
+          <div class="form-group">
+            <label for="to">To</label>
+            <div class="input-wrapper">
+              <span class="input-icon">🎯</span>
+              <input 
+                type="text" 
+                id="to"
+                class="form-input"
+                placeholder="Arrival city"
+                [(ngModel)]="searchForm.to"
+                name="to"
+                required>
+            </div>
+          </div>
+
+          <!-- Departure Date -->
+          <div class="form-group">
+            <label for="departDate">Depart</label>
+            <div class="input-wrapper">
+              <span class="input-icon">📅</span>
+              <input 
+                type="date" 
+                id="departDate"
+                class="form-input"
+                [(ngModel)]="searchForm.departDate"
+                name="departDate"
+                required>
+            </div>
+          </div>
+
+          <!-- Return Date (Flights only) -->
+          <div class="form-group" *ngIf="selectedTab === 'flights' && searchForm.tripType === 'round-trip'">
+            <label for="returnDate">Return</label>
+            <div class="input-wrapper">
+              <span class="input-icon">📅</span>
+              <input 
+                type="date" 
+                id="returnDate"
+                class="form-input"
+                [(ngModel)]="searchForm.returnDate"
+                name="returnDate"
+                [required]="searchForm.tripType === 'round-trip'">
+            </div>
+          </div>
+        </div>
+
+        <!-- Second Row: Passengers, Class, Search -->
+        <div class="form-row">
+          <!-- Passengers -->
+          <div class="form-group">
+            <label for="passengers">Passengers</label>
+            <div class="input-wrapper">
+              <span class="input-icon">👥</span>
+              <select 
+                id="passengers"
+                class="form-input"
+                [(ngModel)]="searchForm.passengers"
+                name="passengers">
+                <option *ngFor="let i of [1,2,3,4,5,6]" [value]="i">{{ i }} Passenger{{ i > 1 ? 's' : '' }}</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Travel Class -->
+          <div class="form-group">
+            <label for="class">Class</label>
+            <div class="input-wrapper">
+              <span class="input-icon">🎫</span>
+              <select 
+                id="class"
+                class="form-input"
+                [(ngModel)]="searchForm.travelClass"
+                name="travelClass">
+                <option *ngIf="selectedTab === 'flights'" value="Economy">Economy</option>
+                <option *ngIf="selectedTab === 'flights'" value="Premium Economy">Premium Economy</option>
+                <option *ngIf="selectedTab === 'flights'" value="Business">Business</option>
+                <option *ngIf="selectedTab === 'flights'" value="First">First Class</option>
+                <option *ngIf="selectedTab === 'trains'" value="First AC">First AC</option>
+                <option *ngIf="selectedTab === 'trains'" value="AC 2-Tier">AC 2-Tier</option>
+                <option *ngIf="selectedTab === 'trains'" value="AC 3-Tier">AC 3-Tier</option>
+                <option *ngIf="selectedTab === 'buses'" value="AC Sleeper">AC Sleeper</option>
+                <option *ngIf="selectedTab === 'buses'" value="AC Seater">AC Seater</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Search Button -->
+          <div class="form-group button-group">
+            <button type="submit" class="search-btn">
+              <span>🔍 Search</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Results Section -->
+
+    <div *ngIf="searched" class="results-section">
+      <h2 class="results-title">Available {{ selectedTab | uppercase }}</h2>
+      <p class="results-count">Showing {{ selectedTab === 'flights' ? flightResults.length : selectedTab === 'trains' ? trainResults.length : busResults.length }} results</p>
+
+      <!-- Flight Results -->
+      <div *ngIf="selectedTab === 'flights'" class="results-grid">
+        <div *ngFor="let flight of flightResults" class="result-card flight-card">
+          <div class="card-header">
+            <div class="airline-info">
+              <h3 class="airline-name">{{ flight.airline }}</h3>
+              <span class="flight-number">{{ flight.flightNumber }}</span>
+            </div>
+            <span class="price-badge">₹{{ flight.price.toLocaleString() }}</span>
+          </div>
+
+          <div class="card-body">
+            <div class="flight-timeline">
+              <div class="timeline-item">
+                <div class="time">{{ flight.departure }}</div>
+                <div class="location">Departure</div>
+              </div>
+              <div class="timeline-connector">
+                <div class="flight-path">{{ flight.stops }}</div>
+                <div class="duration">{{ flight.duration }}</div>
+              </div>
+              <div class="timeline-item">
+                <div class="time">{{ flight.arrival }}</div>
+                <div class="location">Arrival</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <button (click)="openBookingForm(flight, 'flight')" class="book-btn">
+              Book Now →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Train Results -->
+      <div *ngIf="selectedTab === 'trains'" class="results-grid">
+        <div *ngFor="let train of trainResults" class="result-card train-card">
+          <div class="card-header">
+            <div class="train-info">
+              <h3 class="train-name">{{ train.trainName }}</h3>
+              <span class="train-number">Train #{{ train.trainNumber }}</span>
+            </div>
+            <span class="price-badge">₹{{ train.price.toLocaleString() }}</span>
+          </div>
+
+          <div class="card-body">
+            <div class="journey-info">
+              <div class="journey-item">
+                <span class="label">Departure</span>
+                <span class="value">{{ train.departure }}</span>
+              </div>
+              <div class="journey-item">
+                <span class="label">Arrival</span>
+                <span class="value">{{ train.arrival }}</span>
+              </div>
+              <div class="journey-item">
+                <span class="label">Duration</span>
+                <span class="value">{{ train.duration }}</span>
+              </div>
+            </div>
+
+            <div class="train-features">
+              <div class="feature">
+                <span class="feature-icon">🎫</span>
+                <span>{{ train.classes.join(', ') }}</span>
+              </div>
+              <div class="feature">
+                <span class="feature-icon">🪑</span>
+                <span>{{ train.seats }} Seats Available</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <button (click)="openBookingForm(train, 'train')" class="book-btn">
+              Book Now →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bus Results -->
+      <div *ngIf="selectedTab === 'buses'" class="results-grid">
+        <div *ngFor="let bus of busResults" class="result-card bus-card">
+          <div class="card-header">
+            <div class="bus-info">
+              <h3 class="operator-name">{{ bus.operator }}</h3>
+              <span class="bus-type">{{ bus.busType }}</span>
+            </div>
+            <span class="price-badge">₹{{ bus.price.toLocaleString() }}</span>
+          </div>
+
+          <div class="card-body">
+            <div class="bus-details">
+              <div class="detail-row">
+                <span class="label">🕐 Departure</span>
+                <span class="value">{{ bus.departure }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="label">🕕 Arrival</span>
+                <span class="value">{{ bus.arrival }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="label">⏱️ Duration</span>
+                <span class="value">{{ bus.duration }}</span>
+              </div>
+            </div>
+
+            <div class="bus-rating">
+              <div class="stars">
+                <span *ngFor="let star of [1,2,3,4,5]" [class.filled]="star <= Math.floor(bus.rating)">⭐</span>
+              </div>
+              <span class="rating-text">{{ bus.rating }}/5 ({{ Math.floor(Math.random() * 1000) }} reviews)</span>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <button (click)="openBookingForm(bus, 'bus')" class="book-btn">
+              Book Now →
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking Modal (single, outside all loops, at root of booking-container) -->
+    <div class="modal-overlay" *ngIf="showBookingModal" (click)="closeBookingForm()">
+      <div class="modal-content booking-modal slide-up" (click)="$event.stopPropagation()">
+        <button class="modal-close" (click)="closeBookingForm(true)">❌</button>
+        <h2 class="modal-title">Book {{ bookingType | titlecase }}</h2>
+        <div *ngIf="bookingItem">
+          <div class="booking-summary">
+            <h4>Selected {{ bookingType | titlecase }}:</h4>
+            <ul>
+              <li *ngIf="bookingType === 'flight'">Flight: {{ bookingItem.airline }} ({{ bookingItem.flightNumber }})</li>
+              <li *ngIf="bookingType === 'train'">Train: {{ bookingItem.trainName }} ({{ bookingItem.trainNumber }})</li>
+              <li *ngIf="bookingType === 'bus'">Bus: {{ bookingItem.operator }} ({{ bookingItem.busType }})</li>
+              <li>Departure Time: {{ bookingItem.departure }}</li>
+              <li>Arrival Time: {{ bookingItem.arrival }}</li>
+              <li>Price: ₹{{ bookingItem.price?.toLocaleString() }}</li>
+            </ul>
+          </div>
+        </div>
+        <form (ngSubmit)="submitBooking()" #bookingForm="ngForm" novalidate *ngIf="!bookingConfirmed">
+          <div class="form-group">
+            <label for="fromField">From</label>
+            <input id="fromField" name="fromField" class="form-input" [value]="bookingItem?.from || bookingItem?.source || searchForm.from" readonly tabindex="-1">
+          </div>
+          <div class="form-group">
+            <label for="toField">To</label>
+            <input id="toField" name="toField" class="form-input" [value]="bookingItem?.to || bookingItem?.destination || searchForm.to" readonly tabindex="-1">
+          </div>
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input id="fullName" name="fullName" class="form-input" [(ngModel)]="bookingDetails.fullName" required [ngClass]="{'invalid': bookingSubmitted && !bookingDetails.fullName}">
+            <div class="error-message" *ngIf="bookingSubmitted && !bookingDetails.fullName">Full Name is required.</div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input id="email" name="email" class="form-input" [(ngModel)]="bookingDetails.email" required email [ngClass]="{'invalid': bookingSubmitted && !isValidEmail(bookingDetails.email)}">
+            <div class="error-message" *ngIf="bookingSubmitted && !isValidEmail(bookingDetails.email)">Enter a valid email address.</div>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input id="phone" name="phone" class="form-input" [(ngModel)]="bookingDetails.phone" required pattern="^[0-9]{10}$" maxlength="10" [ngClass]="{'invalid': bookingSubmitted && !isValidPhone(bookingDetails.phone)}">
+            <div class="error-message" *ngIf="bookingSubmitted && !isValidPhone(bookingDetails.phone)">Phone number must be 10 digits.</div>
+          </div>
+          <div class="form-group">
+            <label for="numTickets">Number of Tickets</label>
+            <input id="numTickets" name="numTickets" class="form-input" type="number" min="1" [(ngModel)]="bookingDetails.numTickets" required [ngClass]="{'invalid': bookingSubmitted && !isValidTickets(bookingDetails.numTickets)}">
+            <div class="error-message" *ngIf="bookingSubmitted && !isValidTickets(bookingDetails.numTickets)">Enter at least 1 ticket.</div>
+          </div>
+          <div class="form-group button-group">
+            <button type="submit" class="search-btn cta-btn">Confirm Booking</button>
+          </div>
+        </form>
+        <div *ngIf="bookingConfirmed" class="confirmation-message">
+          <p>✅ Booking Confirmed Successfully!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!searched" class="empty-state">
+      <div class="empty-icon">🗺️</div>
+      <h3>Ready to Explore?</h3>
+      <p>Enter your journey details above and discover the best travel options</p>
+    </div>
+  </div>
+</div>

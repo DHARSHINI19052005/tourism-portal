@@ -1,0 +1,121 @@
+<div class="contact-form-wrapper">
+  <div class="form-container">
+    <!-- Success Message -->
+    <div class="success-message" *ngIf="showSuccess" [@slideDown]>
+      <div class="success-icon">✓</div>
+      <div class="success-text">
+        <h4>Thank You!</h4>
+        <p>{{ successMessage }}</p>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form" *ngIf="!showSuccess">
+      <!-- Name Field -->
+      <div class="form-group">
+        <label for="name">Full Name *</label>
+        <input 
+          type="text" 
+          id="name" 
+          formControlName="name"
+          placeholder="John Doe"
+          class="form-input"
+          [class.error]="hasError('name', 'required') || hasError('name', 'minlength')">
+        <div class="error-message" *ngIf="hasError('name', 'required')">
+          ⚠ Name is required
+        </div>
+        <div class="error-message" *ngIf="hasError('name', 'minlength')">
+          ⚠ Name must be at least 2 characters
+        </div>
+      </div>
+
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email"
+          placeholder="your.email@example.com"
+          class="form-input"
+          [class.error]="hasError('email', 'required') || hasError('email', 'email')">
+        <div class="error-message" *ngIf="hasError('email', 'required')">
+          ⚠ Email is required
+        </div>
+        <div class="error-message" *ngIf="hasError('email', 'email')">
+          ⚠ Please enter a valid email address
+        </div>
+      </div>
+
+      <!-- Phone Field -->
+      <div class="form-group">
+        <label for="phone">Phone Number *</label>
+        <input 
+          type="tel" 
+          id="phone" 
+          formControlName="phone"
+          placeholder="9876543210"
+          class="form-input"
+          [class.error]="hasError('phone', 'required') || hasError('phone', 'pattern')">
+        <div class="error-message" *ngIf="hasError('phone', 'required')">
+          ⚠ Phone number is required
+        </div>
+        <div class="error-message" *ngIf="hasError('phone', 'pattern')">
+          ⚠ Please enter a valid 10-digit phone number
+        </div>
+      </div>
+
+      <!-- Booking ID Field -->
+      <div class="form-group">
+        <label for="bookingId">Booking ID (Optional)</label>
+        <input 
+          type="text" 
+          id="bookingId" 
+          formControlName="bookingId"
+          placeholder="e.g., BKG123456"
+          class="form-input">
+        <small class="helper-text">Enter your booking reference if this inquiry relates to an existing booking</small>
+      </div>
+
+      <!-- Query Type Field -->
+      <div class="form-group">
+        <label for="queryType">Inquiry Type *</label>
+        <select 
+          id="queryType" 
+          formControlName="queryType"
+          class="form-input">
+          <option *ngFor="let type of queryTypes" [value]="type">
+            {{ type }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Message Field -->
+      <div class="form-group">
+        <label for="message">Message *</label>
+        <textarea 
+          id="message" 
+          formControlName="message"
+          placeholder="Please describe your travel query in detail..."
+          rows="6"
+          class="form-input"
+          [class.error]="hasError('message', 'required') || hasError('message', 'minlength')"></textarea>
+        <div class="error-message" *ngIf="hasError('message', 'required')">
+          ⚠ Message is required
+        </div>
+        <div class="error-message" *ngIf="hasError('message', 'minlength')">
+          ⚠ Message must be at least 10 characters
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="submit" class="submit-btn" [disabled]="submitted && !contactForm.valid">
+          <span *ngIf="!submitted">Send Message</span>
+          <span *ngIf="submitted"><span class="spinner"></span> Sending...</span>
+          Clear Form
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

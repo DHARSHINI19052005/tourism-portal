@@ -1,0 +1,49 @@
+<div class="faq-wrapper">
+  <div class="container">
+    <div class="faq-header">
+      <h2>Frequently Asked Questions</h2>
+      <p>Find answers to common travel and booking questions</p>
+    </div>
+
+    <div class="faq-container">
+      <div class="faq-item" *ngFor="let faq of faqs; let i = index">
+        <button 
+          class="faq-question"
+          (click)="toggleFAQ(faq)"
+          [class.active]="faq.isOpen"
+          [attr.aria-expanded]="faq.isOpen"
+          [attr.aria-controls]="'faq-answer-' + faq.id">
+          <div class="question-content">
+            <span class="question-number">{{ padNumber(i + 1) }}</span>
+            <span class="question-text">{{ faq.question }}</span>
+          </div>
+          <div class="toggle-icon">
+            <svg 
+              width="24" 
+              height="24" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+        </button>
+
+        <div 
+          class="faq-answer"
+          [@expandCollapse]="getToggleState(faq.isOpen)"
+          [id]="'faq-answer-' + faq.id">
+          <div class="answer-content">
+            {{ faq.answer }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-footer">
+      <p>Still have questions?</p>
+      <a href="#chat" class="cta-link">Start a live chat with our AI assistant</a>
+    </div>
+  </div>
+</div>

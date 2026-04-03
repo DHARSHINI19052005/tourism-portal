@@ -1,0 +1,112 @@
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-background">
+    <div class="gradient-blob blob-1"></div>
+    <div class="gradient-blob blob-2"></div>
+  </div>
+  <div class="hero-content container">
+    <div class="hero-text">
+      <h1 class="hero-title">We're Here to Help You Travel Better</h1>
+      <p class="hero-subtitle">Get instant support from our travel experts available 24/7 across all channels</p>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Options Section -->
+<section class="contact-options-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Choose Your Support Channel</h2>
+      <p class="section-subtitle">Multiple ways to reach our dedicated travel specialists</p>
+    </div>
+
+    <div class="contact-cards-grid">
+      <div *ngFor="let option of contactOptions" class="contact-card" (mouseenter)="$any($event.currentTarget).classList.add('hover')"
+        (mouseleave)="$any($event.currentTarget).classList.remove('hover')">
+        <div class="card-icon-wrapper">
+          <span class="card-icon">{{ option.icon }}</span>
+        </div>
+        <h3 class="card-title">{{ option.title }}</h3>
+        <p class="card-subtitle">{{ option.subtitle }}</p>
+        <ng-container *ngIf="revealedOptionId === option.id; else collapsedDetails">
+          <ul class="card-details">
+            <!-- Email card shows clickable email -->
+            <li *ngIf="option.id === 'email'" class="detail-item">
+              <a href="mailto:support@travelportal.com" (click)="$event.preventDefault(); onEmailClick('support@travelportal.com')">support@travelportal.com</a>
+            </li>
+            <!-- Phone card shows phone number -->
+            <li *ngIf="option.id === 'phone'" class="detail-item">
+              <a href="tel:+918800000000" (click)="$event.preventDefault(); onPhoneClick('+91 88000 00000')">+91 88000 00000</a>
+            </li>
+            <!-- Fallback: show other details -->
+            <ng-container *ngIf="option.id !== 'email' && option.id !== 'phone'">
+              <li *ngFor="let detail of option.details" class="detail-item">{{ detail }}</li>
+            </ng-container>
+          </ul>
+
+          <div *ngIf="mailMessageVisible && option.id === 'email'" class="inline-hint">
+            Mail this address if you have any queries — we'll reply within 24 hours.
+            <button class="small-cta" (click)="sendEmailSupport()">Open Mail App</button>
+          </div>
+
+          <div *ngIf="phoneMessageVisible && option.id === 'phone'" class="inline-hint">
+            Call this number for immediate assistance. Tap to initiate a call.
+            <button class="small-cta" (click)="callSupport()">Call Now</button>
+          </div>
+
+          <div class="card-actions">
+            <button class="card-button" (click)="revealedOptionId = null">Close</button>
+          </div>
+        </ng-container>
+
+        <ng-template #collapsedDetails>
+          <ul class="card-details collapsed">
+            <li class="detail-item">{{ option.details[0] }}</li>
+          </ul>
+          <button class="card-button" (click)="option.id === 'chat' ? openChat() : revealOption(option.id)">
+            {{ option.actionText }}
+            <span class="button-arrow">→</span>
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Form Section -->
+<section class="contact-form-section">
+  <div class="container">
+    <div class="form-wrapper">
+      <div class="form-header">
+        <h2 class="form-title">Send us a Message</h2>
+        <p class="form-subtitle">Tell us about your travel needs and we'll get back to you promptly</p>
+      </div>
+      <app-contact-form></app-contact-form>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section">
+  <div class="container">
+    <div class="faq-header">
+      <h2 class="faq-title">Frequently Asked Questions</h2>
+      <p class="faq-subtitle">Find quick answers to common travel booking questions</p>
+    </div>
+
+    <div class="faq-grid">
+      <div *ngFor="let faq of faqs" class="faq-item" [class.expanded]="isFaqExpanded(faq.id)">
+        <button class="faq-question" (click)="toggleFaq(faq.id)">
+          <span class="faq-text">{{ faq.question }}</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div *ngIf="isFaqExpanded(faq.id)" class="faq-answer">
+          {{ faq.answer }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Chatbot Component -->
+<app-chatbot class="chatbot-section"></app-chatbot>

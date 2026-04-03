@@ -1,0 +1,196 @@
+<section class="destination-page">
+  <!-- Breadcrumb Navigation -->
+  <div class="breadcrumb">
+    <span class="breadcrumb-item">🏠 Home</span>
+    <span class="breadcrumb-separator">/</span>
+    <span class="breadcrumb-item active">🗺️ Destinations</span>
+  </div>
+
+  <h1 class="page-title">Explore Amazing Destinations</h1>
+  <p class="page-subtitle">Discover the most beautiful places across India</p>
+
+  <!-- Unified Search & Filter Bar -->
+  <div class="search-filter-container">
+    <div class="filters-header">
+      <div class="active-filters-indicator" *ngIf="activeFiltersCount > 0">
+        <span class="filter-badge">{{ activeFiltersCount }}</span>
+        <span class="filter-text">Active Filter{{ activeFiltersCount !== 1 ? 's' : '' }}</span>
+      </div>
+      <button class="reset-filters-btn" *ngIf="activeFiltersCount > 0" (click)="resetFilters()" title="Clear all filters">
+        ✕ Reset Filters
+      </button>
+    </div>
+
+    <div class="search-filter-wrapper">
+      <!-- Search Input -->
+      <input
+        type="text"
+        placeholder="🔍 Search city or state..."
+        [(ngModel)]="searchQuery"
+        class="search-box-integrated"
+      />
+      
+      <!-- Destination Type Filter -->
+      <select [(ngModel)]="selectedType" (change)="setType(selectedType)" class="filter-select-integrated" title="Filter by destination type">
+        <option value="all">All Types</option>
+        <option value="Beach">🏖️ Beach</option>
+        <option value="Hill Station">⛰️ Hill Station</option>
+        <option value="City">🏙️ City</option>
+        <option value="Adventure">🎢 Adventure</option>
+        <option value="Spiritual">🙏 Spiritual</option>
+      </select>
+
+      <!-- Rating Filter -->
+      <select [(ngModel)]="selectedRating" (change)="setRating(selectedRating)" class="filter-select-integrated" title="Filter by rating">
+        <option value="all">All Ratings</option>
+        <option value="4plus">⭐ 4★ & above</option>
+        <option value="toprated">⭐⭐⭐⭐⭐ Top Rated</option>
+      </select>
+
+      <!-- Price Range Filter -->
+      <select [(ngModel)]="selectedPriceRange" (change)="setPriceRange(selectedPriceRange)" class="filter-select-integrated" title="Filter by price range">
+        <option value="all">All Prices</option>
+        <option value="below5k">Below ₹5,000</option>
+        <option value="below10k">Below ₹10,000</option>
+        <option value="below20k">Below ₹20,000</option>
+      </select>
+
+      <!-- Location Filter -->
+      <select [(ngModel)]="selectedLocation" (change)="setLocation(selectedLocation)" class="filter-select-integrated" title="Filter by region">
+        <option value="all">All Locations</option>
+        <option value="North">🗻 North</option>
+        <option value="South">🌴 South</option>
+        <option value="East">🏔️ East</option>
+        <option value="West">🌊 West</option>
+      </select>
+
+      <!-- Popularity Filter -->
+      <select [(ngModel)]="selectedPopularity" (change)="setPopularity(selectedPopularity)" class="filter-select-integrated" title="Filter by popularity">
+        <option value="all">All Popularity</option>
+        <option value="high">🔥 High Rated</option>
+        <option value="medium">📈 Medium</option>
+        <option value="low">📊 Emerging</option>
+      </select>
+
+      <!-- Sort By -->
+      <select [(ngModel)]="sortBy" (change)="setSortBy(sortBy)" class="filter-select-integrated" title="Sort results">
+        <option value="none">Sort By</option>
+        <option value="rating">⭐ Highest Rated</option>
+        <option value="price-low">💰 Price: Low to High</option>
+        <option value="price-high">💰 Price: High to Low</option>
+        <option value="popularity">🔥 Most Popular</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Category Filters -->
+  <div class="filters">
+    <button 
+      [class.active]="selectedCategory === 'all'"
+      (click)="setCategory('all')"
+      class="filter-btn">All</button>
+    <button 
+      [class.active]="selectedCategory === 'beach'"
+      (click)="setCategory('beach')"
+      class="filter-btn">🏖️ Beach</button>
+    <button 
+      [class.active]="selectedCategory === 'hill'"
+      (click)="setCategory('hill')"
+      class="filter-btn">⛰️ Hill Station</button>
+    <button 
+      [class.active]="selectedCategory === 'heritage'"
+      (click)="setCategory('heritage')"
+      class="filter-btn">🏛️ Heritage</button>
+    <button 
+      [class.active]="selectedCategory === 'nature'"
+      (click)="setCategory('nature')"
+      class="filter-btn">🌿 Nature</button>
+  </div>
+
+  <!-- Destinations Grid -->
+  <div class="grid">
+    <div 
+      class="card glass-card" 
+      *ngFor="let d of filteredDestinations"
+      (click)="selectDestination(d)"
+      [@cardAnimation]>
+      <div class="card-image-wrapper">
+        <img [src]="d.image" [alt]="d.name" class="card-image" loading="lazy">
+        <div class="card-overlay">
+          <span class="view-details">View Details ↓</span>
+        </div>
+      </div>
+      <div class="card-info">
+        <h2 class="card-name">{{ d.name }}</h2>
+        <p class="card-state">{{ d.state }}</p>
+        <p class="card-desc">{{ d.description }}</p>
+        <div class="card-footer">
+          <span class="card-type">{{ d.type }}</span>
+          <span class="card-rating">{{ getRatingStars(d.rating) }} {{ d.rating }}/5</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Results Message -->
+  <p *ngIf="filteredDestinations.length === 0" class="no-result">
+    ❌ No destinations found. Try adjusting your search!
+  </p>
+
+  <!-- Modal for Detailed Description with Specialities and Restaurants -->
+  <div *ngIf="showModal" class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="modal-close" (click)="closeModal()">✕</button>
+      
+      <div class="modal-image-container">
+        <img [src]="selectedDestination?.image" [alt]="selectedDestination?.name" class="modal-image" loading="lazy">
+      </div>
+      
+      <div class="modal-body">
+        <h2 class="modal-title">{{ selectedDestination?.name }}</h2>
+        <p class="modal-subtitle">{{ selectedDestination?.state }}</p>
+        
+        <div class="modal-description">
+          <p>{{ selectedDestination?.fullDescription }}</p>
+        </div>
+
+        <!-- SPECIALITIES SECTION -->
+        <div class="specialities-section">
+          <h3 class="section-title">✨ Specialities</h3>
+          <div class="specialities-grid">
+            <span class="speciality-badge" *ngFor="let spec of selectedDestination?.specialities">
+              {{ spec }}
+            </span>
+          </div>
+        </div>
+
+        <!-- RESTAURANTS SECTION -->
+        <div class="restaurants-section">
+          <h3 class="section-title">🍽️ Available Restaurants</h3>
+          <div class="restaurants-grid">
+            <div class="restaurant-card glass-card" *ngFor="let rest of selectedDestination?.restaurants">
+              <img [src]="rest.image" [alt]="rest.name" class="restaurant-image" loading="lazy">
+              <div class="restaurant-info">
+                <h4 class="restaurant-name">{{ rest.name }}</h4>
+                <p class="restaurant-cuisine">{{ rest.cuisine }}</p>
+                <div class="restaurant-footer">
+                  <span class="cuisine-type">{{ rest.cuisine }}</span>
+                  <span class="rating">
+                    ⭐ {{ rest.rating }}
+                  </span>
+                  <span class="price">{{ rest.price }}</span>
+                </div>
+              </div>
+              <button class="book-btn" (click)="bookRestaurant(rest)">Book Table</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal-actions">
+          <button class="btn-primary" (click)="closeModal()">Explore More</button>
+          <button class="btn-secondary" (click)="closeModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

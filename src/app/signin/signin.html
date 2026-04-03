@@ -1,0 +1,53 @@
+<div class="signin-page">
+  <div class="signin-card">
+
+    <!-- Left brand panel -->
+    <div class="brand-panel">
+      <div class="brand-content">
+        <h1 class="brand-name">ExploreX</h1>
+        <p class="brand-sub">Discover your next adventure</p>
+        <ul class="feature-list">
+          <li>✈️ Book flights & hotels</li>
+          <li>🗺️ Explore destinations</li>
+          <li>🌟 Curated travel packages</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right form panel -->
+    <div class="form-panel">
+      <h2 class="form-title">Welcome Back</h2>
+      <p class="form-subtitle">Sign in to continue your journey</p>
+
+      <!-- Email -->
+      <div class="field-group" [class.has-error]="touched.email && errors.email">
+        <label>Email Address</label>
+        <input type="email" placeholder="you@example.com" [(ngModel)]="creds.email" (blur)="touch('email')"
+          (input)="clearErrors()" (keyup.enter)="submit()" />
+        <span class="error-msg" *ngIf="touched.email && errors.email">{{ errors.email }}</span>
+      </div>
+
+      <!-- Password -->
+      <div class="field-group" [class.has-error]="touched.password && errors.password">
+        <label>Password</label>
+        <input type="password" placeholder="Your password" [(ngModel)]="creds.password" (blur)="touch('password')"
+          (input)="clearErrors()" (keyup.enter)="submit()" />
+        <span class="error-msg" *ngIf="touched.password && errors.password">{{ errors.password }}</span>
+      </div>
+
+      <!-- Server error -->
+      <div class="server-error" *ngIf="serverError">{{ serverError }}</div>
+
+      <button class="submit-btn" [class.loading]="loading" (click)="submit()" [disabled]="loading">
+        <span *ngIf="!loading">Sign In</span>
+        <span *ngIf="loading" class="spinner-inline"></span>
+      </button>
+
+      <p class="switch-link">
+        Don't have an account?
+        <span routerLink="/login">Sign Up</span>
+      </p>
+    </div>
+
+  </div>
+</div>

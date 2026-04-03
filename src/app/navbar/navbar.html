@@ -1,0 +1,53 @@
+<nav class="navbar">
+  <div class="logo" routerLink="/home">ExploreX</div>
+
+  <!-- Mobile toggle -->
+  <button class="nav-toggle" aria-label="Toggle navigation" (click)="open = !open">☰</button>
+
+  <ul class="nav-links" [class.open]="open">
+    <li><a routerLink="/home">Home</a></li>
+    <li><a routerLink="/destinations">Destinations</a></li>
+    <li><a routerLink="/booking">Booking</a></li>
+    <li><a routerLink="/contact">Contact</a></li>
+    <!-- Analytics link for regular users -->
+    <li *ngIf="isUser$ | async"><a routerLink="/analytics" class="role-link analytics-link">📊 Analytics</a></li>
+    <!-- Admin panel link for admins -->
+    <li *ngIf="isAdmin$ | async"><a routerLink="/admin" class="role-link admin-link">🛡️ Admin Panel</a></li>
+  </ul>
+
+  <!-- User controls -->
+  <div class="user-controls">
+
+    <!-- When logged in: avatar -->
+    <div class="avatar-wrap" *ngIf="isLoggedIn$ | async" (click)="toggleDropdown($event)">
+      <div class="user-avatar" title="My Profile">
+        {{ userInitial$ | async }}
+      </div>
+
+      <!-- Dropdown -->
+      <div class="avatar-dropdown" [class.visible]="dropdownOpen">
+        <div class="dropdown-header">
+          <span class="d-name">{{ userName$ | async }}</span>
+          <span class="d-user">&#64;{{ userHandle$ | async }}</span>
+        </div>
+        <hr class="d-divider" />
+        <a class="dropdown-item" routerLink="/profile" (click)="closeDropdown()">
+          <span class="di-icon">👤</span> My Profile
+        </a>
+        <a class="dropdown-item" routerLink="/analytics" *ngIf="isUser$ | async" (click)="closeDropdown()">
+          <span class="di-icon">📊</span> Analytics
+        </a>
+        <a class="dropdown-item" routerLink="/admin" *ngIf="isAdmin$ | async" (click)="closeDropdown()">
+          <span class="di-icon">🛡️</span> Admin Panel
+        </a>
+        <button class="dropdown-item logout-item" (click)="logout()">
+          <span class="di-icon">🚪</span> Log Out
+        </button>
+      </div>
+    </div>
+
+    <!-- When logged out: Login link -->
+    <a class="login-link" *ngIf="!(isLoggedIn$ | async)" routerLink="/signin">Login</a>
+
+  </div>
+</nav>
